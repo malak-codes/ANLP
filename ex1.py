@@ -41,8 +41,10 @@ def main():
     parser.add_argument("--batch_size", type=int, default=16)
 
     args = parser.parse_args()
+    run_name = f"epoch_num_{args.num_train_epochs}_lr_{args.lr}_batch_size_{args.batch_size}"
 
     training_args = TrainingArguments(
+        run_name=run_name,
         per_device_train_batch_size=args.batch_size,
         num_train_epochs=args.num_train_epochs,
         learning_rate=args.lr,
