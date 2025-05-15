@@ -4,3 +4,4 @@ evaluate>=0.4.0
 scikit-learn>=1.1.0
 numpy>=1.21.0
 wandb>=0.15.0
+accelerate>=0.26.0
