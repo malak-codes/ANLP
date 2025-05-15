@@ -39,7 +39,6 @@ def main():
     parser.add_argument("--num_train_epochs", type=int, default=3)
     parser.add_argument("--lr", type=float, default=2e-5)
     parser.add_argument("--batch_size", type=int, default=16)
-    # parser.add_argument("--output_dir", type=str, default="./results")
 
     args = parser.parse_args()
 
@@ -95,17 +94,10 @@ def main():
         val_acc = metrics.get("eval_accuracy", -1)
 
         with open("res.txt", "a") as f:
-            f.write(f"lr={args.lr}, bs={args.batch_size}, epochs={args.num_train_epochs} => val_acc={val_acc:.4f}\n")
+            f.write(
+                f"epoch_num: {args.num_train_epochs}, lr: {args.lr}, batch_size: {args.batch_size}, eval_acc: {val_acc:.4f}\n")
         wandb.log({"val_accuracy": val_acc})
 
-    # if args.do_predict:
-    #     model.eval()
-    #     predictions = trainer.predict(dataset["test"])
-    #     preds = np.argmax(predictions.predictions, axis=1)
-    #
-    #     with open("predictions.txt", "w") as f:
-    #         for pred in preds:
-    #             f.write(str(pred) + "\n")
     if args.do_predict:
         model.eval()
         predictions = trainer.predict(dataset["test"])
@@ -123,29 +115,29 @@ def main():
                 s2 = raw_test[i]["sentence2"]
                 pred = preds[i]
                 f.write(f"{s1}###{s2}###{pred}\n")
-
-        with open("res.txt", "a") as f:
-            f.write(
-                f"TEST — lr={args.lr}, bs={args.batch_size}, epochs={args.num_train_epochs} => test_acc={test_acc:.4f}\n")
+        #SECTION FOR COMPARING THE OUTPUTS OF THE BEST VS THE WORST CONFIGURATIONS COMMENTED OUT
+        # with open("res.txt", "a") as f:
+        #     f.write(
+        #         f"TEST — lr={args.lr}, bs={args.batch_size}, epochs={args.num_train_epochs} => test_acc={test_acc:.4f}\n")
 
         # Access original (non-tokenized) test set for sentences and labels
-        raw_test = load_dataset("nyu-mll/glue", "mrpc")["test"]
-        true_labels = dataset["test"]["label"]
+        # raw_test = load_dataset("nyu-mll/glue", "mrpc")["test"]
+        # true_labels = dataset["test"]["label"]
 
-        # Write detailed comparison
-        with open("compare.txt", "w", encoding="utf-8") as f:
-            for i in range(len(preds)):
-                s1 = raw_test[i]["sentence1"]
-                s2 = raw_test[i]["sentence2"]
-                label = true_labels[i]
-                pred = preds[i]
-
-                f.write(f"Example {i}\n")
-                f.write(f"Sentence 1: {s1}\n")
-                f.write(f"Sentence 2: {s2}\n")
-                f.write(f"True Label:     {label}\n")
-                f.write(f"Predicted Label:{pred}\n")
-                f.write("-" * 40 + "\n")
+        # # Write detailed comparison
+        # with open("compare.txt", "w", encoding="utf-8") as f:
+        #     for i in range(len(preds)):
+        #         s1 = raw_test[i]["sentence1"]
+        #         s2 = raw_test[i]["sentence2"]
+        #         label = true_labels[i]
+        #         pred = preds[i]
+        # 
+        #         f.write(f"Example {i}\n")
+        #         f.write(f"Sentence 1: {s1}\n")
+        #         f.write(f"Sentence 2: {s2}\n")
+        #         f.write(f"True Label:     {label}\n")
+        #         f.write(f"Predicted Label:{pred}\n")
+        #         f.write("-" * 40 + "\n")
 
         wandb.log({"test_accuracy": test_acc})
 
