@@ -43,6 +43,7 @@ def main():
     args = parser.parse_args()
     run_name = f"epoch_num_{args.num_train_epochs}_lr_{args.lr}_batch_size_{args.batch_size}"
 
+
     training_args = TrainingArguments(
         run_name=run_name,
         per_device_train_batch_size=args.batch_size,
@@ -55,7 +56,6 @@ def main():
 
     set_seed(42)
     run = wandb.init(project="mrpc_ex1", config=vars(args), name=run_name)
-
     dataset = load_dataset("nyu-mll/glue", "mrpc")
 
     global tokenizer
