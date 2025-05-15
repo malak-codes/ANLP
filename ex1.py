@@ -54,7 +54,7 @@ def main():
     )
 
     set_seed(42)
-    run = wandb.init(project="mrpc_ex1", config=vars(args))
+    run = wandb.init(project="mrpc_ex1", config=vars(args), name=run_name)
 
     dataset = load_dataset("nyu-mll/glue", "mrpc")
 
