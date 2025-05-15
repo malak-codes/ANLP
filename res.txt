@@ -1,0 +1,6 @@
+lr=0.001, bs=32, epochs=1 => val_acc=0.6838
+lr=2e-05, bs=16, epochs=1 => val_acc=0.7892
+lr=2e-05, bs=16, epochs=5 => val_acc=0.8505
+TEST — lr=0.001, bs=32, epochs=1 => test_acc=0.6649
+TEST — lr=2e-05, bs=16, epochs=1 => test_acc=0.7774
+TEST — lr=2e-05, bs=16, epochs=5 => test_acc=0.8510
